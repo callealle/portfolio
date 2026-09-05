@@ -1,0 +1,117 @@
+{
+  "_meta": {
+    "sourceOfTruth": "Resume file: Chlarence_Callelero_Resume.pdf (in 'CHLARENCE - PERSONAL' folder) is the authoritative master copy, cross-checked against the earlier .docx draft and the user's chat description. Do not invent facts not present in this file or explicitly provided by the user in conversation. TODO items mark known gaps awaiting user input.",
+    "todo": [
+      "GitHub profile URL",
+      "Hobbies & interests content (user will provide separately)",
+      "Whether a downloadable resume file (PDF) should be linked, and which version",
+      "Investigation step for the stored-procedure-optimization case study (how the CTE/indexing/date-filter root cause was diagnosed)"
+    ]
+  },
+  "person": {
+    "name": "Chlarence Callelero",
+    "email": "calle121201@gmail.com",
+    "phone": "+63 992 674 3970",
+    "location": "Cebu, Philippines",
+    "linkedin": "https://www.linkedin.com/in/ccallelero",
+    "github": null
+  },
+  "summary": "Full-Stack Developer with 2 years of production experience on a live enterprise inventory and financial management platform (Java / Spring Boot, ReactJS, MySQL/MariaDB). Builds full-stack web applications and RESTful web services, with a specialization in SQL stored procedure optimization and financial module development across purchasing, inventory, sales, and reporting -- cutting report load times by 60-70% and resolving 150-200+ production tickets. Experienced mentoring junior developers and translating business requirements into correct, auditable system behavior. Quick to ramp on large, unfamiliar codebases. Open to mid-level full-stack or backend roles, on-site in Cebu or fully remote.",
+  "experience": [
+    {
+      "company": "Alliance Software Incorporated",
+      "title": "Technical Specialist I",
+      "location": "Cebu, Philippines",
+      "product": "PC Express -- enterprise inventory & financial management platform (purchasing, inventory, sales, GL / AP / AR)",
+      "startDate": "2024-07",
+      "endDate": "2026-07",
+      "durationNote": "July 2024 -- July 2026 (~2 years production experience, per resume summary)",
+      "achievements": [
+        {
+          "id": "fullstack-features",
+          "text": "Design, develop, test, debug, and maintain full-stack features across a ReactJS frontend and Java / Spring Boot backend on a live, multi-business-unit enterprise platform, following established coding standards."
+        },
+        {
+          "id": "reporting-grids",
+          "text": "Built ReactJS components integrated with Spring Boot RESTful web services, including data-heavy reporting grids (Wijmo FlexGrid) spanning purchasing, inventory, sales, and financial screens -- ensuring consistent, reconcilable output across all modules."
+        },
+        {
+          "id": "stored-procedure-optimization",
+          "text": "Cut high-volume financial report load times by ~60-70% by refactoring stored procedures -- converting CTEs to temp tables, adding targeted indexes, and rewriting non-sargable date filters -- eliminating locking bottlenecks on a MariaDB production database.",
+          "metric": { "value": "60-70%", "label": "report load time reduction" },
+          "caseStudy": {
+            "problem": "High-volume financial reports were slow to load, with locking bottlenecks on the MariaDB production database.",
+            "investigation": null,
+            "solution": "Refactored stored procedures: converted CTEs to temp tables, added targeted indexes, and rewrote non-sargable date filters.",
+            "result": "Report load times cut by approximately 60-70%, eliminating the locking bottlenecks."
+          }
+        },
+        {
+          "id": "production-tickets",
+          "text": "Diagnosed and resolved 150-200+ production tickets across all modules -- covering GL journal entry logic, AP/AR reconciliation, serial-number tracking, concurrency race conditions, and XLSX/PDF export defects.",
+          "metric": { "value": "150-200+", "label": "production tickets resolved" }
+        },
+        {
+          "id": "ownership",
+          "text": "Owned production-critical financial modules end-to-end within 18 months; partnered with business analysts and QA to translate business requirements into correct, auditable system behavior."
+        },
+        {
+          "id": "mentoring",
+          "text": "Mentored and onboarded OJT developers on system architecture, stored procedure design, and Git-based development workflows, reducing their ramp-up time significantly."
+        }
+      ],
+      "techStack": [
+        "JavaScript", "ReactJS", "Java (Spring Boot)", "MySQL/MariaDB",
+        "SQL Stored Procedures", "REST APIs", "Wijmo", "Git", "Azure DevOps", "Sourcetree"
+      ]
+    },
+    {
+      "company": "AboitizPower Corporation",
+      "title": "Customer Experience Intern",
+      "location": null,
+      "product": null,
+      "startDate": "2023-07",
+      "endDate": "2023-08",
+      "durationNote": "July 2023 -- August 2023",
+      "achievements": [
+        {
+          "id": "cx-frameworks",
+          "text": "Assisted in creating frameworks and wireframes for project presentations within the Customer Experience team."
+        }
+      ],
+      "techStack": []
+    }
+  ],
+  "projects": [
+    {
+      "id": "ojt-management-ml",
+      "name": "OJT Management System with ML",
+      "type": "Research Paper",
+      "dateRange": "Aug 2023 -- June 2024",
+      "description": "Full-stack prototype integrating sentiment-analysis text classification and fuzzy logic for host-company evaluation; built frontend and backend in JavaScript with a web API and Docker deployment.",
+      "techStack": ["JavaScript", "Web API", "Docker"],
+      "recognition": null
+    },
+    {
+      "id": "springboard",
+      "name": "SPringBoard: Validating Project Ideation",
+      "type": "Full-stack application",
+      "dateRange": "Jan -- June 2023",
+      "description": "Full-stack application using React, .NET, MongoDB, and Git with GPT API integration.",
+      "techStack": ["React", ".NET", "MongoDB", "Git", "GPT API"],
+      "recognition": "AppCon finalist -- OTIS Philippines Inc. (innovation in web/mobile development)"
+    }
+  ],
+  "education": {
+    "school": "Cebu Institute of Technology -- University",
+    "degree": "Bachelor of Science in Computer Science",
+    "years": "Aug 2020 -- June 2024"
+  },
+  "skills": {
+    "frontend": ["ReactJS", "JavaScript", "HTML5", "CSS3", "Responsive Design", "Wijmo"],
+    "backend": ["Java", "Spring Boot", "RESTful Web Services"],
+    "database": ["SQL", "MySQL", "MariaDB", "SQL Stored Procedures"],
+    "toolsAndDevOps": ["Git", "GitHub", "Sourcetree", "Azure DevOps / CI-CD"]
+  },
+  "hobbies": []
+}

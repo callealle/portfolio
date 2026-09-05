@@ -1,26 +1,191 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Base surfaces */
+  --bg: #f2ede3;
+  --bg-elevated: #ffffff;
+  --bg-sunken: #e8e1d3;
+
+  /* Ink */
+  --ink: #14120f;
+  --ink-muted: #6b6459;
+  --ink-faint: #9a9384;
+
+  /* Brand -- cool tech palette: blue core, teal rim, violet ambient */
+  --primary: #14120f;
+  --accent: #2f5fe0;
+  --accent-2: #0d8c9a;
+  --accent-3: #7c4de0;
+  --accent-soft: #2f5fe01a;
+  --accent-2-soft: #0d8c9a1a;
+  --accent-3-soft: #7c4de01a;
+
+  /* Structure */
+  --line: rgba(20, 18, 15, 0.12);
+  --line-strong: rgba(20, 18, 15, 0.24);
+  --glass-bg: rgba(255, 255, 255, 0.55);
+  --glass-border: rgba(20, 18, 15, 0.08);
+
+  --shadow-color: 20 18 15;
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+  --color-bg: var(--bg);
+  --color-bg-elevated: var(--bg-elevated);
+  --color-bg-sunken: var(--bg-sunken);
+  --color-ink: var(--ink);
+  --color-ink-muted: var(--ink-muted);
+  --color-ink-faint: var(--ink-faint);
+  --color-primary: var(--primary);
+  --color-accent: var(--accent);
+  --color-accent-2: var(--accent-2);
+  --color-accent-3: var(--accent-3);
+  --color-accent-soft: var(--accent-soft);
+  --color-accent-2-soft: var(--accent-2-soft);
+  --color-accent-3-soft: var(--accent-3-soft);
+  --color-line: var(--line);
+  --color-line-strong: var(--line-strong);
+  --color-glass: var(--glass-bg);
+  --color-glass-border: var(--glass-border);
+
+  /* Back-compat aliases used by earlier pass */
+  --color-background: var(--bg);
+  --color-foreground: var(--ink);
+  --color-muted: var(--ink-muted);
+
+  --font-display: var(--font-space-grotesk);
+  --font-sans: var(--font-inter);
+  --font-mono: var(--font-jetbrains-mono);
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+    --bg: #07070f;
+    --bg-elevated: #12121f;
+    --bg-sunken: #040409;
+
+    --ink: #f2ede3;
+    --ink-muted: #8f8b9a;
+    --ink-faint: #55525f;
+
+    --primary: #f2ede3;
+    --accent: #5b8cff;
+    --accent-2: #2fe0d6;
+    --accent-3: #9d7cff;
+    --accent-soft: #5b8cff22;
+    --accent-2-soft: #2fe0d622;
+    --accent-3-soft: #9d7cff22;
+
+    --line: rgba(242, 237, 227, 0.1);
+    --line-strong: rgba(242, 237, 227, 0.2);
+    --glass-bg: rgba(20, 20, 26, 0.55);
+    --glass-border: rgba(242, 237, 227, 0.08);
+
+    --shadow-color: 0 0 0;
   }
 }
 
+html {
+  scrollbar-gutter: stable;
+  background: var(--bg);
+  overflow-x: hidden;
+}
+
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans);
+  position: relative;
+}
+
+::selection {
+  background: var(--accent);
+  color: var(--bg);
+}
+
+.font-display {
+  font-family: var(--font-display);
+}
+.font-mono {
+  font-family: var(--font-mono);
+}
+
+/* Fluid section-heading scale (clamp-based, not fixed breakpoint jumps).
+   Sits well below the hero name -- that stays the one oversized display
+   text on the page; these are section labels, not headlines. */
+.heading-section {
+  font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.875rem);
+  line-height: 1.15;
+  letter-spacing: -0.01em;
+  font-weight: 600;
+}
+
+/* Glass surface utility */
+.glass {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  backdrop-filter: blur(16px) saturate(140%);
+  -webkit-backdrop-filter: blur(16px) saturate(140%);
+}
+
+/* Purposeful elevation shadows, tinted by theme */
+.shadow-soft {
+  box-shadow: 0 1px 2px rgba(var(--shadow-color) / 0.04),
+    0 8px 24px -8px rgba(var(--shadow-color) / 0.12);
+}
+.shadow-lifted {
+  box-shadow: 0 2px 4px rgba(var(--shadow-color) / 0.06),
+    0 24px 48px -16px rgba(var(--shadow-color) / 0.28);
+}
+
+/* Section background treatments */
+.bg-blueprint {
+  background-image: linear-gradient(var(--line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--line) 1px, transparent 1px);
+  background-size: 48px 48px;
+}
+
+.bg-dots {
+  background-image: radial-gradient(var(--line-strong) 1px, transparent 1px);
+  background-size: 22px 22px;
+}
+
+/* Grain texture overlay, extremely subtle */
+.grain::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  pointer-events: none;
+  opacity: 0.035;
+  mix-blend-mode: overlay;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='2' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}
+
+/* Custom cursor: hide native cursor on fine-pointer devices once our cursor mounts */
+@media (hover: hover) and (pointer: fine) {
+  html.custom-cursor,
+  html.custom-cursor * {
+    cursor: none !important;
+  }
+}
+
+/* Custom cursor dot only renders for fine-pointer, motion-friendly devices */
+.cursor-dot {
+  display: none;
+}
+@media (hover: hover) and (pointer: fine) and (prefers-reduced-motion: no-preference) {
+  .cursor-dot {
+    display: block;
+  }
 }
