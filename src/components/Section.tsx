@@ -22,6 +22,7 @@ export function Section({
   className,
   tone = "default",
   wide = false,
+  background,
 }: {
   id: string;
   index: string;
@@ -31,6 +32,8 @@ export function Section({
   className?: string;
   tone?: Tone;
   wide?: boolean;
+  /** Optional full-bleed decorative layer, behind everything in the section. */
+  background?: ReactNode;
 }) {
   const inverted = tone === "inverted";
 
@@ -39,6 +42,12 @@ export function Section({
       id={id}
       className={`relative scroll-mt-24 py-24 sm:py-32 ${TONE_BG[tone]} ${className ?? ""}`}
     >
+      {background && (
+        <div aria-hidden="true" className="pointer-events-none absolute inset-0 overflow-hidden">
+          {background}
+        </div>
+      )}
+
       <div
         className={`relative mx-auto px-6 sm:px-10 ${wide ? "max-w-7xl" : "max-w-6xl"}`}
       >

@@ -4,6 +4,7 @@ import { useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Section } from "./Section";
 import { StaggerReveal, StaggerItem } from "./motion/StaggerReveal";
+import { NetworkField } from "./NetworkField";
 import { profile } from "@/lib/content";
 
 const CATEGORY_LABELS: Record<string, string> = {
@@ -34,7 +35,13 @@ export function Skills() {
   const usage = useMemo(() => (selected ? findUsage(selected) : []), [selected]);
 
   return (
-    <Section id="skills" index="02" label="Skills" title="What I work with" tone="dots">
+    <Section
+      id="skills"
+      index="02"
+      label="Skills"
+      title="What I work with"
+      background={<NetworkField className="opacity-40" />}
+    >
       <div className="grid gap-10 sm:grid-cols-2">
         {categories.map(([key, items]) => (
           <div key={key}>
