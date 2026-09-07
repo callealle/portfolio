@@ -77,7 +77,7 @@ export function CommandPalette() {
         hint: "fun",
         run: () =>
           setMessage(
-            `${profile.person.name} — full-stack developer, coffee-optional, bug-report-tolerant.`,
+            `${profile.person.name} - full-stack developer, coffee-optional, bug-report-tolerant.`,
           ),
       },
       {

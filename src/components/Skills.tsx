@@ -89,7 +89,7 @@ export function Skills() {
               <p className="mt-1 text-sm text-ink-muted">
                 {usage.length > 0
                   ? `Used in: ${usage.join(", ")}`
-                  : "Core skill — not yet tied to a listed project or role."}
+                  : "Core skill - not yet tied to a listed project or role."}
               </p>
             </div>
           </motion.div>

@@ -12,6 +12,11 @@ const eslintConfig = defineConfig([
     "out/**",
     "build/**",
     "next-env.d.ts",
+    // Vendored agent-skill bundles (installed by `npx skills add` / impeccable
+    // CLI) -- tooling, not project source.
+    ".agents/**",
+    ".claude/**",
+    ".codex/**",
   ]),
 ]);
 

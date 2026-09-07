@@ -3,137 +3,85 @@
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { Section } from "./Section";
-import { ScrollReveal } from "./motion/ScrollReveal";
 import { HoverTilt } from "./motion/HoverTilt";
-import { profile, type ProjectEntry } from "@/lib/content";
-
-function ProjectVisual({ index }: { index: number }) {
-  const isEven = index % 2 === 0;
-  return (
-    <HoverTilt strength={6} className="h-full">
-      <div
-        className={`relative flex h-64 items-center justify-center overflow-hidden rounded-2xl border border-line sm:h-full ${
-          isEven ? "bg-gradient-to-br from-accent-soft to-transparent" : "bg-gradient-to-br from-accent-2-soft to-transparent"
-        }`}
-      >
-        <span
-          className={`font-display select-none text-[9rem] font-bold leading-none opacity-20 ${
-            isEven ? "text-accent" : "text-accent-2"
-          }`}
-        >
-          {String(index + 1).padStart(2, "0")}
-        </span>
-        <div className="bg-blueprint absolute inset-0 opacity-30" />
-      </div>
-    </HoverTilt>
-  );
-}
-
-function ProjectCase({ project, index }: { project: ProjectEntry; index: number }) {
-  const [open, setOpen] = useState(false);
-  const isEven = index % 2 === 0;
-
-  return (
-    <ScrollReveal direction={isEven ? "left" : "right"} amount={0.2}>
-      <article className="grid gap-8 py-14 first:pt-0 sm:grid-cols-2 sm:gap-12">
-        <div className={isEven ? "sm:order-1" : "sm:order-2"}>
-          <ProjectVisual index={index} />
-        </div>
-
-        <div className={`flex flex-col justify-center ${isEven ? "sm:order-2" : "sm:order-1"}`}>
-          <div className="flex items-center gap-3">
-            <span className="font-mono text-[11px] uppercase tracking-widest text-ink-faint">
-              {project.type}
-            </span>
-            {project.dateRange && (
-              <>
-                <span className="text-ink-faint">·</span>
-                <span className="font-mono text-[11px] uppercase tracking-widest text-ink-faint">
-                  {project.dateRange}
-                </span>
-              </>
-            )}
-          </div>
-
-          <h3 className="font-display mt-3 text-3xl font-bold tracking-tight sm:text-4xl">
-            {project.name}
-          </h3>
-
-          <p className="mt-4 text-base leading-relaxed text-ink/75 sm:text-lg">
-            {project.description}
-          </p>
-
-          {project.recognition && (
-            <p className="mt-4 inline-flex w-fit items-center gap-2 rounded-full bg-accent-soft px-3 py-1.5 text-xs font-medium text-accent">
-              🏆 {project.recognition}
-            </p>
-          )}
-
-          <button
-            type="button"
-            onClick={() => setOpen((v) => !v)}
-            className="mt-6 inline-flex w-fit items-center gap-2 font-mono text-xs uppercase tracking-widest text-ink-muted transition-colors hover:text-ink"
-          >
-            {open ? "Hide details" : "Explore case study"}
-            <motion.span animate={{ rotate: open ? 45 : 0 }}>+</motion.span>
-          </button>
-
-          <AnimatePresence initial={false}>
-            {open && (
-              <motion.div
-                initial={{ height: 0, opacity: 0 }}
-                animate={{ height: "auto", opacity: 1 }}
-                exit={{ height: 0, opacity: 0 }}
-                transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-                className="overflow-hidden"
-              >
-                <div className="mt-5 grid gap-4 border-t border-line pt-5 sm:grid-cols-2">
-                  <div>
-                    <h4 className="font-mono text-[10px] uppercase tracking-widest text-ink-faint">
-                      Role
-                    </h4>
-                    <p className="mt-1.5 text-sm text-ink-muted">
-                      Full-stack developer
-                    </p>
-                  </div>
-                  <div>
-                    <h4 className="font-mono text-[10px] uppercase tracking-widest text-ink-faint">
-                      Stack
-                    </h4>
-                    <div className="mt-1.5 flex flex-wrap gap-1.5">
-                      {project.techStack.map((tech) => (
-                        <span
-                          key={tech}
-                          className="rounded-full bg-ink/[0.06] px-2.5 py-1 font-mono text-[10px] text-ink-muted"
-                        >
-                          {tech}
-                        </span>
-                      ))}
-                    </div>
-                  </div>
-                </div>
-              </motion.div>
-            )}
-          </AnimatePresence>
-        </div>
-      </article>
-    </ScrollReveal>
-  );
-}
+import { StaggerReveal, StaggerItem } from "./motion/StaggerReveal";
+import { profile } from "@/lib/content";
 
 export function Projects() {
+  const projects = profile.projects;
+  const [index, setIndex] = useState(0);
+  const project = projects[index];
+
   return (
-    <Section
-      id="projects"
-      index="04"
-      label="Projects"
-      title="Things I've shipped"
-      wide
-    >
-      <div className="divide-y divide-line">
-        {profile.projects.map((project, i) => (
-          <ProjectCase key={project.id} project={project} index={i} />
-        ))}
+    <Section id="projects" index="04" label="Projects" title="Things I've shipped" wide>
+      <div className="flex flex-wrap gap-2">
+        {projects.map((p, i) => {
+          const isSelected = i === index;
+          return (
+            <button
+              key={p.id}
+              type="button"
+              onClick={() => setIndex(i)}
+              className={`rounded-full border px-4 py-2 text-sm transition-colors ${
+                isSelected
+                  ? "border-accent bg-accent-soft text-ink"
+                  : "border-line text-ink/85 hover:border-accent-2 hover:text-ink"
+              }`}
+            >
+              {p.name.split(":")[0]}
+            </button>
+          );
+        })}
+      </div>
+
+      <div className="mt-8" style={{ perspective: "1200px" }}>
+        <AnimatePresence mode="wait">
+          <motion.div
+            key={project.id}
+            initial={{ opacity: 0, y: 12 }}
+            animate={{ opacity: 1, y: 0 }}
+            exit={{ opacity: 0, y: -12 }}
+            transition={{ duration: 0.35, ease: [0.16, 1, 0.3, 1] }}
+          >
+            <HoverTilt strength={3}>
+              <div className="glass shadow-soft rounded-2xl p-6 sm:p-8">
+                <div className="flex flex-wrap items-baseline justify-between gap-2">
+                  <span className="font-mono text-[11px] uppercase tracking-widest text-accent-2">
+                    {project.type}
+                    {project.dateRange ? ` · ${project.dateRange}` : ""}
+                  </span>
+                  <span className="font-mono text-[11px] text-ink-faint">
+                    {String(index + 1).padStart(2, "0")} / {String(projects.length).padStart(2, "0")}
+                  </span>
+                </div>
+
+                <h3 className="mt-3 font-display text-3xl font-bold sm:text-4xl">
+                  {project.name}
+                </h3>
+
+                <p className="mt-4 max-w-2xl text-[15px] leading-relaxed text-ink/80">
+                  {project.description}
+                </p>
+
+                {project.recognition && (
+                  <p className="mt-5 inline-flex w-fit items-center gap-2 rounded-full bg-accent-soft px-3 py-1.5 text-xs text-accent">
+                    ✦ {project.recognition}
+                  </p>
+                )}
+
+                <StaggerReveal className="mt-6 flex flex-wrap gap-2 border-t border-line pt-6">
+                  {project.techStack.map((tech) => (
+                    <StaggerItem key={tech}>
+                      <span className="rounded-full bg-ink/[0.06] px-3 py-1 font-mono text-[11px] text-ink-muted">
+                        {tech}
+                      </span>
+                    </StaggerItem>
+                  ))}
+                </StaggerReveal>
+              </div>
+            </HoverTilt>
+          </motion.div>
+        </AnimatePresence>
       </div>
     </Section>
   );

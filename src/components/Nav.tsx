@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import { motion, useScroll, useSpring } from "motion/react";
 import { handleAnchorClick } from "@/lib/smoothScroll";
+import { StaggeredMenuPanel } from "./react-bits/StaggeredMenuPanel";
 
 const LINKS = [
   { href: "#about", label: "About" },
@@ -42,7 +43,8 @@ export function Nav() {
   }, []);
 
   return (
-    <header className="fixed inset-x-0 top-0 z-50">
+    <>
+    <header className="fixed inset-x-0 top-0 z-50 border-b border-line bg-glass backdrop-blur-[8px]">
       <motion.div
         className="h-[2px] origin-left bg-accent"
         style={{ scaleX: progress }}
@@ -113,33 +115,27 @@ export function Nav() {
           />
         </button>
       </div>
-
-      <motion.nav
-        initial={false}
-        animate={open ? "open" : "closed"}
-        variants={{
-          open: { height: "auto", opacity: 1 },
-          closed: { height: 0, opacity: 0 },
-        }}
-        transition={{ duration: 0.3, ease: [0.16, 1, 0.3, 1] }}
-        className="glass overflow-hidden md:hidden"
-      >
-        <div className="flex flex-col gap-1 px-6 pb-6">
-          {LINKS.map((link) => (
-            <a
-              key={link.href}
-              href={link.href}
-              onClick={(e) => {
-                handleAnchorClick(e, link.href);
-                setOpen(false);
-              }}
-              className="border-b border-line py-3 font-mono text-xs uppercase tracking-widest text-ink/80"
-            >
-              {link.label}
-            </a>
-          ))}
-        </div>
-      </motion.nav>
     </header>
+
+    {/* Rendered as a sibling of <header>, not a child -- header's own
+        backdrop-blur establishes a containing block for position:fixed
+        descendants (per spec, same as `filter`/`transform` do), which would
+        otherwise squeeze this panel down to header's own height instead of
+        the viewport's. */}
+    <div className="md:hidden">
+      <StaggeredMenuPanel
+        open={open}
+        items={LINKS.map((link) => ({
+          label: link.label,
+          ariaLabel: `Go to ${link.label}`,
+          link: link.href,
+        }))}
+        onItemClick={(e, item) => {
+          handleAnchorClick(e, item.link);
+          setOpen(false);
+        }}
+      />
+    </div>
+    </>
   );
 }

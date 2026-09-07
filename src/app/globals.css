@@ -1,32 +1,46 @@
 @import "tailwindcss";
 
+/*
+  Dark cinematic identity -- committed as the site's one look, not a
+  prefers-color-scheme variant. Near-black field, one deliberate amber
+  accent, everything else neutral. No light-mode fallback: a mood like
+  this doesn't have a natural "light" counterpart, same reasoning as
+  dropping the light/dark toggle for the parchment direction, just
+  landing on dark instead of light as the permanent choice.
+*/
 :root {
   /* Base surfaces */
-  --bg: #f2ede3;
-  --bg-elevated: #ffffff;
-  --bg-sunken: #e8e1d3;
+  --bg: #0a0a0c;
+  --bg-elevated: #141416;
+  --bg-sunken: #050506;
 
   /* Ink */
-  --ink: #14120f;
-  --ink-muted: #6b6459;
-  --ink-faint: #9a9384;
+  --ink: #f5f4f1;
+  --ink-muted: #8f8d8a;
+  /* Raised from #55534f (~2.6:1 on --bg, below WCAG AA's 4.5:1) to ~4.6:1 --
+     used sitewide for real content (labels, captions, footer details), not
+     just decoration, so it needs to clear normal-text AA, not just large-text. */
+  --ink-faint: #7d7a71;
 
-  /* Brand -- cool tech palette: blue core, teal rim, violet ambient */
-  --primary: #14120f;
-  --accent: #2f5fe0;
-  --accent-2: #0d8c9a;
-  --accent-3: #7c4de0;
-  --accent-soft: #2f5fe01a;
-  --accent-2-soft: #0d8c9a1a;
-  --accent-3-soft: #7c4de01a;
+  /* Brand -- one accent, used sparingly. accent-2/accent-3 are kept as
+     neutral (not additional hues) so existing components that reference
+     them for secondary/tertiary emphasis fall back to restrained grays
+     rather than reintroducing a multi-color system. */
+  --primary: #f5f4f1;
+  --accent: #ff5a24;
+  --accent-2: #8f8d8a;
+  --accent-3: #55534f;
+  --accent-soft: #ff5a2422;
+  --accent-2-soft: #8f8d8a1f;
+  --accent-3-soft: #55534f22;
 
   /* Structure */
-  --line: rgba(20, 18, 15, 0.12);
-  --line-strong: rgba(20, 18, 15, 0.24);
-  --glass-bg: rgba(255, 255, 255, 0.55);
-  --glass-border: rgba(20, 18, 15, 0.08);
+  --line: rgba(245, 244, 241, 0.1);
+  --line-strong: rgba(245, 244, 241, 0.2);
+  --glass-bg: rgba(20, 20, 22, 0.6);
+  --glass-border: rgba(245, 244, 241, 0.08);
 
-  --shadow-color: 20 18 15;
+  --shadow-color: 0 0 0;
 }
 
 @theme inline {
@@ -53,36 +67,13 @@
   --color-foreground: var(--ink);
   --color-muted: var(--ink-muted);
 
-  --font-display: var(--font-space-grotesk);
-  --font-sans: var(--font-inter);
+  /* One family (Onest), weight-differentiated -- heading/body are the
+     same typeface on purpose, per the reference's own approach. Italianno
+     and Arimo (loaded in layout.tsx) are used only for the Hero name's
+     per-line script/Helvetica split, not the site-wide type system. */
+  --font-display: var(--font-onest);
+  --font-sans: var(--font-onest);
   --font-mono: var(--font-jetbrains-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --bg: #07070f;
-    --bg-elevated: #12121f;
-    --bg-sunken: #040409;
-
-    --ink: #f2ede3;
-    --ink-muted: #8f8b9a;
-    --ink-faint: #55525f;
-
-    --primary: #f2ede3;
-    --accent: #5b8cff;
-    --accent-2: #2fe0d6;
-    --accent-3: #9d7cff;
-    --accent-soft: #5b8cff22;
-    --accent-2-soft: #2fe0d622;
-    --accent-3-soft: #9d7cff22;
-
-    --line: rgba(242, 237, 227, 0.1);
-    --line-strong: rgba(242, 237, 227, 0.2);
-    --glass-bg: rgba(20, 20, 26, 0.55);
-    --glass-border: rgba(242, 237, 227, 0.08);
-
-    --shadow-color: 0 0 0;
-  }
 }
 
 html {
@@ -95,6 +86,7 @@ body {
   background: var(--bg);
   color: var(--ink);
   font-family: var(--font-sans);
+  font-weight: 300;
   position: relative;
 }
 
@@ -110,22 +102,35 @@ body {
   font-family: var(--font-mono);
 }
 
+/* Hero name's per-line script/Helvetica split (HeroName.tsx) only -- not
+   part of the site-wide type system. Defined after .font-display so, at
+   equal specificity, these deterministically win when combined with it on
+   the same element (same source-order logic as .glass vs. a Tailwind
+   border utility elsewhere in this file). */
+.font-script {
+  font-family: var(--font-italianno);
+}
+.font-helvetica-now {
+  font-family: var(--font-arimo);
+}
+
 /* Fluid section-heading scale (clamp-based, not fixed breakpoint jumps).
    Sits well below the hero name -- that stays the one oversized display
    text on the page; these are section labels, not headlines. */
 .heading-section {
   font-size: clamp(1.375rem, 1.1rem + 0.9vw, 1.875rem);
   line-height: 1.15;
-  letter-spacing: -0.01em;
-  font-weight: 600;
+  letter-spacing: -0.015em;
+  font-weight: 500;
 }
 
-/* Glass surface utility */
+/* Elevated panel: soft glow/shadow language rather than heavy
+   glassmorphism blur -- premium-dark, not frosted-glass. */
 .glass {
   background: var(--glass-bg);
   border: 1px solid var(--glass-border);
-  backdrop-filter: blur(16px) saturate(140%);
-  -webkit-backdrop-filter: blur(16px) saturate(140%);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
 }
 
 /* Purposeful elevation shadows, tinted by theme */
@@ -135,7 +140,8 @@ body {
 }
 .shadow-lifted {
   box-shadow: 0 2px 4px rgba(var(--shadow-color) / 0.06),
-    0 24px 48px -16px rgba(var(--shadow-color) / 0.28);
+    0 24px 48px -16px rgba(var(--shadow-color) / 0.28),
+    0 0 60px -20px var(--accent-soft);
 }
 
 /* Section background treatments */

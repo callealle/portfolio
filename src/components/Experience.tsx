@@ -35,11 +35,11 @@ export function Experience() {
                 {primary.company}
               </h3>
               <span className="font-mono text-xs uppercase tracking-widest text-ink-faint">
-                {primary.durationNote}
+                {primary.durationDisplay}
               </span>
             </div>
             <p className="mt-1 text-ink/70">
-              {primary.title} — {primary.location}
+              {primary.title} - {primary.location}
             </p>
             {primary.product && (
               <p className="mt-1 text-sm text-ink-faint">{primary.product}</p>
@@ -76,10 +76,10 @@ export function Experience() {
               <div className="flex flex-col justify-between gap-1 sm:flex-row sm:items-baseline">
                 <div>
                   <span className="font-medium text-ink/90">{exp.title}</span>
-                  <span className="text-ink-muted"> — {exp.company}</span>
+                  <span className="text-ink-muted"> - {exp.company}</span>
                 </div>
                 <span className="font-mono text-xs uppercase tracking-widest text-ink-faint">
-                  {exp.durationNote}
+                  {exp.durationDisplay}
                 </span>
               </div>
               {exp.achievements[0] && (

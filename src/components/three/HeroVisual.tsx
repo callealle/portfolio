@@ -1,7 +1,7 @@
 "use client";
 
 import dynamic from "next/dynamic";
-import { useEffect, useState } from "react";
+import { useEffect, useState, type RefObject } from "react";
 
 const HeroScene = dynamic(() => import("./HeroScene"), {
   ssr: false,
@@ -14,7 +14,7 @@ function FallbackVisual() {
       className="h-full w-full"
       style={{
         background:
-          "radial-gradient(circle at 35% 30%, var(--accent) 0%, var(--accent-2) 55%, var(--accent-3) 100%)",
+          "radial-gradient(circle at 50% 45%, var(--accent) 0%, transparent 62%), var(--bg)",
       }}
     />
   );
@@ -44,7 +44,13 @@ function canRender3D() {
  * state we're mirroring from props, so the effect->setState here is the
  * correct escape hatch rather than something to lift into render.
  */
-export function HeroVisual({ className }: { className?: string }) {
+export function HeroVisual({
+  className,
+  containerRef,
+}: {
+  className?: string;
+  containerRef: RefObject<HTMLElement | null>;
+}) {
   const [ready, setReady] = useState(false);
 
   useEffect(() => {
@@ -52,5 +58,9 @@ export function HeroVisual({ className }: { className?: string }) {
     setReady(canRender3D());
   }, []);
 
-  return <div className={className}>{ready ? <HeroScene /> : <FallbackVisual />}</div>;
+  return (
+    <div className={className}>
+      {ready ? <HeroScene containerRef={containerRef} /> : <FallbackVisual />}
+    </div>
+  );
 }

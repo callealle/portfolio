@@ -19,6 +19,11 @@ export interface ExperienceEntry {
   product: string | null;
   startDate: string | null;
   endDate: string | null;
+  /** Clean, user-facing date range -- render this, not durationNote. */
+  durationDisplay: string;
+  /** Internal editorial caveat about how startDate/endDate were derived from
+   * the source resume; not meant for display (see PRODUCT.md's anti-fabrication
+   * rule -- this documents an inference, it isn't itself a fact to show). */
   durationNote: string;
   achievements: Achievement[];
   techStack: string[];
