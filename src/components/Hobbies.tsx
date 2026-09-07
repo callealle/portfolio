@@ -25,7 +25,7 @@ export function Hobbies() {
           transition={{ delay: 0.4, duration: 0.6 }}
           className="max-w-md font-mono text-sm text-bg/60"
         >
-          check back soon — this section updates once it ships.
+          check back soon - this section updates once it ships.
         </motion.p>
       </div>
     </Section>

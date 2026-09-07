@@ -10,7 +10,7 @@ export function Resume() {
       <HoverTilt strength={2}>
         <div className="glass shadow-soft flex flex-col items-start justify-between gap-8 rounded-2xl p-8 sm:flex-row sm:items-center sm:p-12">
           <p className="max-w-md text-ink/75">
-            Everything on this page, in one PDF — experience, tech stack, and
+            Everything on this page, in one PDF: experience, tech stack, and
             education, ready to forward to a hiring team.
           </p>
           <div className="flex shrink-0 gap-3">

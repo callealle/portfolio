@@ -6,7 +6,7 @@ import { motion, useReducedMotion } from "motion/react";
 type Line = { prompt: string; output: string };
 
 const SCRIPT: Line[] = [
-  { prompt: "whoami", output: "chlarence callelero — full-stack developer" },
+  { prompt: "whoami", output: "chlarence callelero - full-stack developer" },
   { prompt: "stack --primary", output: "java/spring-boot · react · mysql/mariadb" },
   { prompt: "uptime --production", output: "2 years, 0 unresolved GL discrepancies" },
   { prompt: "status", output: "shipping. mentoring. optimizing queries." },

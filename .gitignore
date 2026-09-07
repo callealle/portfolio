@@ -39,3 +39,16 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+# claude code -- machine-local settings (hook registration, etc.), not shared
+.claude/settings.local.json
+
+# impeccable -- PRODUCT.md/DESIGN.md/config.json are shared design context and
+# stay tracked; everything below is per-run working state or per-developer
+# overrides
+.impeccable/config.local.json
+.impeccable/mocks/
+.impeccable/build/
+.impeccable/review/
+.impeccable/critique/
+.impeccable/design.json
