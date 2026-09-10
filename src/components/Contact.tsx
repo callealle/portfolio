@@ -1,18 +1,9 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { TextReveal } from "./motion/TextReveal";
 import { MagneticButton } from "./motion/MagneticButton";
 import { ScrollReveal } from "./motion/ScrollReveal";
 import { profile } from "@/lib/content";
-
-// Loaded client-only, decorative-only: a large, low-opacity glass-warp echo
-// of the closing line, sitting behind the real (always-visible, accessible)
-// TextReveal heading below -- not a replacement for it. This is the site's
-// last full-content beat before the ask, and the critique that flagged it
-// as under-invested suggested exactly this kind of extra "signature moment"
-// near the close, without touching the reliable heading itself.
-const WarpText = dynamic(() => import("./react-bits/WarpText"), { ssr: false });
 
 export function Contact() {
   return (
@@ -28,35 +19,11 @@ export function Contact() {
         </span>
       </div>
 
-      <div className="relative">
-        <div
-          aria-hidden="true"
-          className="pointer-events-none absolute -inset-x-6 -inset-y-10 -z-10 opacity-[0.12] sm:-inset-x-10"
-        >
-          <WarpText
-            decorative
-            text="Let's talk"
-            color="#f5f4f1"
-            fontSize="clamp(3rem, 11vw, 8rem)"
-            fontWeight={600}
-            warpStrength={0.06}
-            pointerStrength={0.28}
-            pointerInfluence={0.5}
-            speed={0.4}
-            refraction={0.012}
-            // See HeroName.tsx's note: WarpText's own CSS floors its root at
-            // min-height:220px, which beats a smaller height:100% -- override
-            // inline so this stays within its intended decorative bounds.
-            style={{ height: "100%", minHeight: 0 }}
-          />
-        </div>
-
-        <TextReveal
-          as="h2"
-          text="Let's build something."
-          className="heading-section font-display max-w-3xl"
-        />
-      </div>
+      <TextReveal
+        as="h2"
+        text="Let's build something."
+        className="heading-section font-display max-w-3xl"
+      />
 
       <MagneticButton strength={0.15} className="mt-10 inline-block">
         <a

@@ -11,7 +11,7 @@ export function Hobbies() {
       index="05"
       label="Outside work"
       title="Beyond the code"
-      tone="inverted"
+      tone="sunken"
     >
       <div className="flex flex-col items-start gap-6 py-6">
         <TextReveal
@@ -23,7 +23,7 @@ export function Hobbies() {
           whileInView={{ opacity: 1 }}
           viewport={{ amount: 0.6 }}
           transition={{ delay: 0.4, duration: 0.6 }}
-          className="max-w-md font-mono text-sm text-bg/60"
+          className="max-w-md font-mono text-sm text-ink-muted"
         >
           check back soon - this section updates once it ships.
         </motion.p>

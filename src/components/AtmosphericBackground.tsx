@@ -1,47 +1,54 @@
 "use client";
 
-import { motion, useScroll, useTransform, useReducedMotion } from "motion/react";
+import ColorBends from "./react-bits/ColorBends";
 
 /**
- * Fixed, decorative gradient layer that drifts slowly with scroll for
- * depth. Continuous scroll-linked motion (not a viewport-triggered
- * reveal) — it never "finishes," it just tracks position.
+ * Fixed, decorative background layer sitting behind every section that does
+ * not paint its own opaque surface.
+ *
+ * Previously three blurred radial-gradient blobs drifting on scroll; now a
+ * ColorBends shader (React Bits) fed the site's own tokens rather than its
+ * demo palette, so it stays inside the one-accent rule: amber plus two
+ * deeper embers of the same hue, nothing else.
+ *
+ * Sections that need their copy to stay legible hold this back themselves
+ * (the hero's scrim, Section.tsx's translucent tones) rather than the
+ * layer being dimmed globally, so it reads clearly where there is room.
+ *
+ * Reduced motion and the hidden-tab pause are handled inside ColorBends.
  */
-export function AtmosphericBackground() {
-  const prefersReduced = useReducedMotion();
-  const { scrollYProgress } = useScroll();
-  const y1 = useTransform(scrollYProgress, [0, 1], [0, -160]);
-  const y2 = useTransform(scrollYProgress, [0, 1], [0, 220]);
-  const rotate = useTransform(scrollYProgress, [0, 1], [0, 25]);
 
+// Module-level so the reference is stable -- an inline array literal would
+// be a new reference every render and re-run the component's uniform sync.
+// All three entries stay in the amber/ember family. A light neutral here
+// (the #8f8d8a token) pushed the band peaks to near-white once summed and
+// multiplied by intensity, and white peaks read brighter than the page's
+// own white text -- headings started losing to the background. Keeping the
+// palette warm caps the peaks below text brightness.
+const PALETTE = ["#ff5a24", "#b8431a", "#6b3a1f"];
+
+export function AtmosphericBackground() {
   return (
     <div
       aria-hidden="true"
-      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden"
+      className="pointer-events-none fixed inset-0 -z-10 overflow-hidden opacity-[0.95]"
     >
-      <motion.div
-        style={{
-          y: prefersReduced ? 0 : y1,
-          background:
-            "radial-gradient(closest-side, var(--accent), transparent)",
-        }}
-        className="absolute -top-[20%] -left-[10%] h-[60vh] w-[60vw] rounded-full opacity-[0.16] blur-[110px]"
-      />
-      <motion.div
-        style={{
-          y: prefersReduced ? 0 : y2,
-          rotate: prefersReduced ? 0 : rotate,
-          background:
-            "radial-gradient(closest-side, var(--accent-2), transparent)",
-        }}
-        className="absolute top-[40%] -right-[15%] h-[70vh] w-[50vw] rounded-full opacity-[0.14] blur-[130px]"
-      />
-      <div
-        style={{
-          background:
-            "radial-gradient(closest-side, var(--accent-3), transparent)",
-        }}
-        className="absolute bottom-[-10%] left-[20%] h-[45vh] w-[45vw] rounded-full opacity-[0.1] blur-[100px]"
+      <ColorBends
+        colors={PALETTE}
+        rotation={90}
+        autoRotate={1}
+        speed={0.16}
+        scale={1}
+        frequency={1.8}
+        warpStrength={1}
+        mouseInfluence={0.5}
+        parallax={0.4}
+        noise={0.45}
+        iterations={1}
+        intensity={1.45}
+        bandWidth={6}
+        dpr={1.25}
+        transparent
       />
     </div>
   );

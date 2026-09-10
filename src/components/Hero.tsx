@@ -6,7 +6,6 @@ import { HeroName } from "./HeroName";
 import { MagneticButton } from "./motion/MagneticButton";
 import { TerminalPanel } from "./TerminalPanel";
 import { GsapStat } from "./GsapStat";
-import { HeroVisual } from "./three/HeroVisual";
 import { profile } from "@/lib/content";
 import { handleAnchorClick } from "@/lib/smoothScroll";
 
@@ -17,10 +16,7 @@ export function Hero() {
     offset: ["start start", "end start"],
   });
   // The scroll-driven exit "scene": content fades and sinks slightly as
-  // the hero scrolls past. Separate transform channel from the 3D core's
-  // pointer-look (which fades its own influence to zero over the same
-  // range) -- opacity/position here, rotation there, so neither fights
-  // the other for control of the same property.
+  // the hero scrolls past.
   const exitOpacity = useTransform(scrollYProgress, [0, 0.8], [1, 0]);
   const exitY = useTransform(scrollYProgress, [0, 1], [0, 60]);
 
@@ -30,24 +26,20 @@ export function Hero() {
       id="hero"
       className="relative flex min-h-screen flex-col overflow-hidden pt-28"
     >
-      <div className="pointer-events-none absolute inset-0">
-        <HeroVisual className="h-full w-full" containerRef={heroRef} />
-      </div>
-
-      {/* Readability scrim: the System Core is a full-bleed centered graph,
-          so without this its glow sits directly behind the value-prop copy
-          (confirmed worst on mobile, where it overlapped the tech-stack
-          sentence). Two stacked gradients rather than one: a vertical band
-          flattens the paragraph zone back to solid bg on narrow screens
-          where the text column runs full width; a horizontal band protects
-          the text column specifically on lg+, where the terminal panel
-          shares the row and needs the graph visible beside it, not behind it. */}
+      {/* Readability scrim. Originally added to dim the 3D System Core
+          behind the copy; that visual has since been removed, but the scrim
+          still earns its place holding the sitewide ColorBends streaks back
+          from the text. Two stacked gradients: a vertical band covers the
+          paragraph zone on narrow screens where the text column runs full
+          width, and a horizontal band protects the text column on lg+,
+          where the terminal panel shares the row. Translucent rather than
+          solid --bg, so the background stays visible behind the hero. */}
       <div
         aria-hidden="true"
         className="pointer-events-none absolute inset-0"
         style={{
           background:
-            "linear-gradient(180deg, transparent 0%, var(--bg) 26%, var(--bg) 60%, transparent 84%), linear-gradient(100deg, var(--bg) 0%, var(--bg) 40%, transparent 66%)",
+            "linear-gradient(180deg, transparent 0%, rgba(10,10,12,0.72) 12%, rgba(10,10,12,0.72) 62%, transparent 86%), linear-gradient(100deg, rgba(10,10,12,0.55) 0%, rgba(10,10,12,0.42) 40%, transparent 66%)",
         }}
       />
 

@@ -5,12 +5,20 @@ import { ScrollReveal } from "./motion/ScrollReveal";
 
 type Tone = "default" | "sunken" | "inverted" | "grid" | "dots";
 
+/**
+ * Surface tints are deliberately translucent: the site's ColorBends
+ * background sits behind every section at z-index -10, and a fully opaque
+ * tone would black it out for that whole section (which is exactly what
+ * `grid` was doing to Experience). `inverted` is the one exception -- it is
+ * a committed light surface, and letting an amber band bleed through it
+ * would just look muddy.
+ */
 const TONE_BG: Record<Tone, string> = {
   default: "",
-  sunken: "bg-bg-sunken",
+  sunken: "bg-bg-sunken/65",
   inverted: "bg-ink text-bg",
-  grid: "bg-bg-sunken bg-blueprint",
-  dots: "bg-bg bg-dots",
+  grid: "bg-bg-sunken/65 bg-blueprint",
+  dots: "bg-bg/40 bg-dots",
 };
 
 export function Section({
