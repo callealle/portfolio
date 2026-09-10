@@ -83,7 +83,13 @@ html {
 }
 
 body {
-  background: var(--bg);
+  /* Deliberately transparent: html above already paints --bg, and the
+     fixed AtmosphericBackground layer sits at z-index -10 as a child of
+     body. Negative-z-index descendants paint BEFORE their parent's own
+     background in the root stacking context, so giving body a background
+     here would occlude that layer entirely (which is exactly what used to
+     happen -- the old gradient blobs were painting under it, unseen). */
+  background: transparent;
   color: var(--ink);
   font-family: var(--font-sans);
   font-weight: 300;
